@@ -1,4 +1,7 @@
 <?php
+// Suppress deprecation warnings on PHP 8.5+
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
 $host   = getenv('DB_HOST') ?: 'localhost';
 $dbname = getenv('DB_NAME') ?: 'pes_college_portal';
 $dbUser = getenv('DB_USER') ?: 'root';
@@ -11,30 +14,53 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 ];
 
+// Enable multi-statements so auto-installer and dumps can run cleanly
+$multiStmtOption = defined('Pdo\Mysql::ATTR_MULTI_STATEMENTS')
+    ? \Pdo\Mysql::ATTR_MULTI_STATEMENTS
+    : (defined('PDO::MYSQL_ATTR_MULTI_STATEMENTS') ? @constant('PDO::MYSQL_ATTR_MULTI_STATEMENTS') : 1000);
+$options[$multiStmtOption] = true;
+
 // Enable SSL if explicitly requested or connecting to a remote host
 $isRemote = ($host !== 'localhost' && $host !== '127.0.0.1');
 $useSsl   = (getenv('DB_SSL') === 'true') || $isRemote;
 
 if ($useSsl) {
     $caBundle = __DIR__ . '/cacert.pem';
+    $sslCaOption = defined('Pdo\Mysql::ATTR_SSL_CA')
+        ? \Pdo\Mysql::ATTR_SSL_CA
+        : (defined('PDO::MYSQL_ATTR_SSL_CA') ? @constant('PDO::MYSQL_ATTR_SSL_CA') : 1002);
+
     if (file_exists($caBundle)) {
-        $options[PDO::MYSQL_ATTR_SSL_CA] = $caBundle;
+        $options[$sslCaOption] = $caBundle;
     } elseif (file_exists('/etc/pki/tls/certs/ca-bundle.crt')) {
-        $options[PDO::MYSQL_ATTR_SSL_CA] = '/etc/pki/tls/certs/ca-bundle.crt';
+        $options[$sslCaOption] = '/etc/pki/tls/certs/ca-bundle.crt';
     } elseif (file_exists('/etc/ssl/certs/ca-certificates.crt')) {
-        $options[PDO::MYSQL_ATTR_SSL_CA] = '/etc/ssl/certs/ca-certificates.crt';
+        $options[$sslCaOption] = '/etc/ssl/certs/ca-certificates.crt';
     }
 
-    // Set verify server cert flag without deprecation warnings across PHP versions
-    if (defined('Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT')) {
-        $options[\Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT] = false;
-    } elseif (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
-        $options[@constant('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')] = false;
-    }
+    $sslVerifyOption = defined('Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT')
+        ? \Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT
+        : (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT') ? @constant('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT') : 1006);
+    $options[$sslVerifyOption] = false;
 }
 
 try {
     $pdo = new PDO($dsn, $dbUser, $dbPass, $options);
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
+}
+
+// Auto-initialize tables and seed data if users table does not exist
+try {
+    $pdo->query("SELECT 1 FROM users LIMIT 1");
+} catch (Throwable $e) {
+    $schemaFile = __DIR__ . '/database.sql';
+    if (file_exists($schemaFile)) {
+        try {
+            $sql = file_get_contents($schemaFile);
+            $pdo->exec($sql);
+        } catch (Throwable $initErr) {
+            // Ignore error or log if already exists
+        }
+    }
 }
