@@ -1,0 +1,330 @@
+/* ==========================================================================
+   PES College Portal — Shared Stylesheet
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 20px 14px;
+    background: #e8eef5;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #0f172a;
+    line-height: 1.45;
+}
+
+a {
+    color: #0b3c78;
+}
+
+/* --------------------------------------------------------------------------
+   Containers & Top Bars
+   -------------------------------------------------------------------------- */
+
+.portal-wrapper {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
+    border: 1px solid #cbd5e1;
+}
+
+.dashboard-wrapper {
+    max-width: 1120px;
+}
+
+.dashboard-topbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-topbar h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.25;
+}
+
+.dashboard-topbar p {
+    margin: 4px 0 0;
+    font-size: 13.5px;
+    color: #475569;
+}
+
+/* --------------------------------------------------------------------------
+   Cards & Alerts
+   -------------------------------------------------------------------------- */
+
+.dash-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.dash-card h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0b3c78;
+}
+
+.error-msg {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Forms & Inputs
+   -------------------------------------------------------------------------- */
+
+.input-group {
+    margin-bottom: 14px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea,
+.dept-select,
+.subject-select,
+.filter-input,
+.filter-select,
+.search-input-box {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #0f172a;
+    background: #ffffff;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus,
+.dept-select:focus,
+.subject-select:focus,
+.filter-input:focus,
+.filter-select:focus,
+.search-input-box:focus {
+    outline: none;
+    border-color: #0b3c78;
+    box-shadow: 0 0 0 3px rgba(11, 60, 120, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons & Navigation Pills
+   -------------------------------------------------------------------------- */
+
+.login-btn {
+    display: inline-block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #0b3c78;
+    color: #ffffff;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.login-btn:hover {
+    background: #092e5c;
+}
+
+.logout-btn {
+    display: inline-block;
+    min-height: 38px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #b91c1c;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.logout-btn:hover {
+    opacity: 0.92;
+}
+
+.nav-row,
+.role-nav-bar,
+.section-selector,
+.dept-tabs-bar,
+.sem-filter-row,
+.scope-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Tables
+   -------------------------------------------------------------------------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Responsive Rules (Phones <= 640px)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+    body {
+        padding: 10px 8px;
+    }
+
+    .portal-wrapper,
+    .dashboard-wrapper {
+        width: 100%;
+        max-width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+    }
+
+    .dashboard-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-bottom: 12px;
+        margin-bottom: 14px;
+    }
+
+    .dashboard-topbar h1 {
+        font-size: 19px;
+    }
+
+    .dashboard-topbar > div:last-child {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .dashboard-topbar > div:last-child .logout-btn {
+        margin-right: 0 !important;
+        flex: 1 1 auto;
+    }
+
+    .dash-card {
+        padding: 14px;
+        border-radius: 8px;
+    }
+
+    .dash-card h2 {
+        font-size: 16px;
+    }
+
+    .nav-link-btn,
+    .role-nav-btn,
+    .section-tab,
+    .dept-tab,
+    .sem-pill,
+    .scope-pill {
+        min-height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12.5px;
+        padding: 7px 11px;
+    }
+
+    /* 16px prevents automatic zoom on mobile tap */
+    .input-group input,
+    .input-group select,
+    .input-group textarea,
+    .dept-select,
+    .subject-select,
+    .filter-input,
+    .filter-select,
+    .search-input-box {
+        font-size: 16px;
+        min-height: 44px;
+    }
+
+    .filter-bar,
+    .search-bar-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .filter-btn,
+    .search-submit-btn,
+    .clear-btn,
+    .clear-link-btn,
+    .login-btn {
+        width: 100%;
+        min-height: 44px;
+        text-align: center;
+    }
+
+    th,
+    td {
+        padding: 8px 6px;
+        font-size: 12.5px;
+    }
+
+    td[style*="white-space:nowrap"],
+    td[style*="white-space: nowrap"] {
+        white-space: normal !important;
+    }
+
+    .edit-link-btn,
+    .del-btn {
+        margin-bottom: 4px;
+    }
+}

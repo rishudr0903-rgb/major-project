@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PES College Portal Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="portal-wrapper">
+        <div class="portal-header">
+            <h1>PES College Portal</h1>
+            <p>Unified College Management System</p>
+        </div>
+
+        <div class="login-card">
+            <!-- Left Side: Vertical Role Selection -->
+            <div class="role-sidebar">
+                <h3>Select User Type</h3>
+                <label class="role-option active" data-placeholder="Student ID / USN (e.g. U21ME24S0014)" data-role="Student">
+                    <input type="radio" name="userRole" value="student" checked>
+                    <span>Student</span>
+                </label>
+
+                <label class="role-option" data-placeholder="Faculty / Teacher ID" data-role="Teacher">
+                    <input type="radio" name="userRole" value="teacher">
+                    <span>Teachers</span>
+                </label>
+
+                <label class="role-option" data-placeholder="Admin Username" data-role="Admin">
+                    <input type="radio" name="userRole" value="admin">
+                    <span>Admin</span>
+                </label>
+
+                <label class="role-option" data-placeholder="Principal ID" data-role="Principal">
+                    <input type="radio" name="userRole" value="principal">
+                    <span>Principal</span>
+                </label>
+            </div>
+
+            <!-- Right Side: Login Form -->
+            <div class="form-section">
+                <h2 id="formHeading">Student Login</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Student ID / USN (e.g. U21ME24S0014)" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="••••••••••••" required>
+                    </div>
+
+                    <button type="submit" class="login-btn">Login</button>
+
+                    <div class="forgot-password">
+                        Forgot Password? <a href="#">Click Here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roleOptions = document.querySelectorAll('.role-option');
+        const usernameInput = document.getElementById('username');
+        const formHeading = document.getElementById('formHeading');
+
+        roleOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active highlight from all options
+                roleOptions.forEach(item => item.classList.remove('active'));
+                
+                // Highlight the selected option and check its radio button
+                option.classList.add('active');
+                option.querySelector('input[type="radio"]').checked = true;
+
+                // Update heading and input placeholder
+                const selectedRole = option.getAttribute('data-role');
+                const newPlaceholder = option.getAttribute('data-placeholder');
+
+                formHeading.textContent = `${selectedRole} Login`;
+                usernameInput.placeholder = newPlaceholder;
+                usernameInput.value = '';
+            });
+        });
+    </script>
+
+</body>
+</html>
